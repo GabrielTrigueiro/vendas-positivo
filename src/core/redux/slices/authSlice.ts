@@ -38,13 +38,11 @@ const initialState: AuthApiState = {
   error: null,
 };
 
-// ? pegar o token aqui
+// ! decriptar o token e salvar no state
 export const login = createAsyncThunk("login", async (data: User) => {
   const response = await axiosInstance.post(AUTH, data);
-  const resData = response.data;
-  console.log(response);
+  const resData = response.data.data;
   localStorage.setItem("userInfo", JSON.stringify(resData));
-
   return resData;
 });
 
