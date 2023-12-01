@@ -4,6 +4,5 @@ body {
   background-image: linear-gradient(180deg, #10AFCD 30%, #07515f 100%);
   margin: 0;
   padding: 0;
-  height: 100vh;
   overflow: hidden;
 }

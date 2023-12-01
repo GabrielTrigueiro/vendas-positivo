@@ -1,6 +1,5 @@
 import {
   Container,
-  CssBaseline,
   Box,
   Typography,
   TextField,
@@ -14,11 +13,9 @@ import styled from "@emotion/styled";
 
 const Logo = styled(Card)`
   background-color: #ccc;
-  border-radius: 5px;
   flex: 1;
-  height: 100%
+  height: 100%;
 `;
-
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +40,7 @@ const Login = () => {
   };
 
   return (
-    <Container disableGutters maxWidth="md" sx={{ background: "#fff", borderRadius: 1, mt: 20 }}>
+    <Container disableGutters maxWidth="md" sx={{ background: "#fff", borderRadius: 1 }}>
       <Box
         sx={{
           display: "flex",
@@ -53,19 +50,21 @@ const Login = () => {
           gap: 1
         }}
       >
-        <Logo></Logo>
+        <Logo sx={{ boxShadow: "none" }}></Logo>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
-            width: "50%",
+            justifyContent: "center",
+            flex: 1,
+            height: "100%",
             padding: 2,
-            gap: 2,
+            gap: 3
           }}
         >
-          <Typography variant="h4">Acesso para colaboradores</Typography>
+          <Typography sx={{ fontSize: "1.5pc" }}>Acesso para colaboradores</Typography>
           <TextField
             required
             autoComplete="off"
@@ -93,7 +92,7 @@ const Login = () => {
             }}
           />
           <Button
-            sx={{ background: "rgba(16, 175, 205, 1)", borderRadius: 10, fontWeight: "bold", fontSize: "1.2pc" }}
+            sx={{ background: "rgba(16, 175, 205, 1)", borderRadius: 10, fontWeight: "bold", fontSize: "1.2em", mt: 5 }}
             fullWidth
             variant="contained"
             onClick={handleLogin}
