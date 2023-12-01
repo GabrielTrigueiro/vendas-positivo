@@ -1,20 +1,22 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axiosInstance from "../../api/axiosInstance";
+import axiosInstance from "core/api/axiosInstance";
 import { AUTH } from "core/utils/constants";
+import { jwtDecode } from "jwt-decode";
 
 type User = {
   email: string;
   password: string;
 };
 
-type NewUser = User & {
-  name: string;
-};
+// type NewUser = User & {
+//   name: string;
+// };
 
 type UserBasicInfo = {
   id: string;
   name: string;
   email: string;
+  token: string;
 };
 
 type UserProfileData = {
@@ -24,25 +26,37 @@ type UserProfileData = {
 
 type AuthApiState = {
   basicUserInfo?: UserBasicInfo | null;
-  userProfileData?: UserProfileData | null;
   status: "idle" | "loading" | "failed";
   error: string | null;
 };
 
+const translateToken = (token: string | null): UserBasicInfo | null => {
+  if (token === null) {
+    return null;
+  }
+  let userDecoded = jwtDecode(token);
+  let user = {
+    email: userDecoded.sub || "",
+    id: "não tem por enquanto",
+    name: "não tem por enquanto",
+    token: token,
+  };
+  return user;
+};
+
 const initialState: AuthApiState = {
   basicUserInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo") as string)
+    ? translateToken(localStorage.getItem("userInfo"))
     : null,
-  userProfileData: undefined,
   status: "idle",
   error: null,
 };
 
-// ! decriptar o token e salvar no state
+// * req - dec token - salvando local storage
 export const login = createAsyncThunk("login", async (data: User) => {
   const response = await axiosInstance.post(AUTH, data);
   const resData = response.data.data;
-  localStorage.setItem("userInfo", JSON.stringify(resData));
+  localStorage.setItem("userInfo", resData);
   return resData;
 });
 
@@ -52,14 +66,23 @@ export const login = createAsyncThunk("login", async (data: User) => {
 //   localStorage.setItem("userInfo", JSON.stringify(resData));
 //   return resData;
 // });
-// export const logout = createAsyncThunk("logout", async () => {
-//   const response = await axiosInstance.post("/logout", {});
-//   const resData = response.data;
 
-//   localStorage.removeItem("userInfo");
+export const logout = createAsyncThunk("logout", async () => {
+  localStorage.removeItem("userInfo");
+});
 
-//   return resData;
-// });
+// ? resgatar usuário do local storage
+export const getUser = () => {
+  try {
+    const serializedUser = localStorage.getItem("userInfo");
+    if (serializedUser === null) {
+      return undefined;
+    }
+    return jwtDecode(serializedUser);
+  } catch (err: any) {
+    console.log(err);
+  }
+};
 
 const authSlice = createSlice({
   name: "auth",
@@ -71,13 +94,10 @@ const authSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(
-        login.fulfilled,
-        (state, action: PayloadAction<UserBasicInfo>) => {
-          state.status = "idle";
-          state.basicUserInfo = action.payload;
-        }
-      )
+      .addCase(login.fulfilled, (state, action: PayloadAction<string>) => {
+        state.status = "idle";
+        state.basicUserInfo = translateToken(action.payload);
+      })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Login failed";
@@ -97,19 +117,6 @@ const authSlice = createSlice({
     // .addCase(register.rejected, (state, action) => {
     //   state.status = "failed";
     //   state.error = action.error.message || "Registration failed";
-    // })
-
-    // .addCase(logout.pending, (state) => {
-    //   state.status = "loading";
-    //   state.error = null;
-    // })
-    // .addCase(logout.fulfilled, (state, action) => {
-    //   state.status = "idle";
-    //   state.basicUserInfo = null;
-    // })
-    // .addCase(logout.rejected, (state, action) => {
-    //   state.status = "failed";
-    //   state.error = action.error.message || "Logout failed";
     // })
   },
 });
