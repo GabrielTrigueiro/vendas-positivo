@@ -30,7 +30,10 @@ const Login = () => {
             email,
             password,
           })
-        ).unwrap();
+        ).then(() => {
+          setEmail("");
+          setPassword("");
+        });
       } catch (e: any) {
         console.log(e.response);
       }
@@ -42,8 +45,12 @@ const Login = () => {
   return (
     <Container
       disableGutters
-      maxWidth="md"
-      sx={{ background: "#fff", borderRadius: 1, height: "60vh" }}
+      sx={{
+        background: "#fff",
+        borderRadius: 1,
+        height: "60vh",
+        width: "60vw",
+      }}
     >
       <Box
         sx={{
