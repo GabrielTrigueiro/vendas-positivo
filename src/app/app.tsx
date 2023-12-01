@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-// import Register from "./views/singOn";
 import DefaultRoute from "../core/utils/defaultRoute";
 import ProtectedRoute from "../core/utils/protectedRoute";
 import Login from "./views/login";

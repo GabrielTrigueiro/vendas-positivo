@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { Axios, AxiosError } from "axios";
+import { Notification } from "app/components/toastNotification";
 import axiosInstance from "core/api/axiosInstance";
 import { AUTH } from "core/utils/constants";
 import { jwtDecode } from "jwt-decode";
@@ -50,11 +50,11 @@ export const login = createAsyncThunk("login", async (data: User) => {
     .post(AUTH, data)
     .then((resp) => {
       localStorage.setItem("userInfo", resp.data.data);
-      //colocar notficaçÃo de sucesso
+      Notification("Login bem sucedido", "success");
       return resp.data.data;
     })
     .catch((err: any) => {
-      //console.log(err.response?.data?.errors[0]);
+      Notification(err.response?.data?.errors[0], "error");
       return err;
     });
   return response;

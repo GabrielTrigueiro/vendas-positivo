@@ -43,14 +43,14 @@ const Login = () => {
     <Container
       disableGutters
       maxWidth="md"
-      sx={{ background: "#fff", borderRadius: 1 }}
+      sx={{ background: "#fff", borderRadius: 1, height: "60vh" }}
     >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "40vh",
+          height: "100%",
           gap: 1,
         }}
       >
