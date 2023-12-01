@@ -5,22 +5,20 @@ import {
   Typography,
   TextField,
   Button,
+  Card,
 } from "@mui/material";
 import { useAppDispatch } from "core/hooks/reduxHooks";
 import { login } from "core/redux/slices/authSlice";
 import { useState } from "react";
 import styled from "@emotion/styled";
 
-const Logo = styled.div`
+const Logo = styled(Card)`
   background-color: #ccc;
-  width: 14em;
-  height: 14em;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 5px;
+  flex: 1;
+  height: 100%
 `;
+
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -45,75 +43,66 @@ const Login = () => {
   };
 
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Container
-        maxWidth="sm"
-        sx={{ background: "#fff", borderRadius: 1, padding: 2 }}
+    <Container disableGutters maxWidth="md" sx={{ background: "#fff", borderRadius: 1, mt: 20 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "40vh",
+          gap: 1
+        }}
       >
-        <CssBaseline />
+        <Logo></Logo>
         <Box
           sx={{
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "space-evenly",
-            padding: 1,
+            textAlign: "center",
+            width: "50%",
+            padding: 2,
+            gap: 2,
           }}
         >
-          <Logo />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              gap: 2,
+          <Typography variant="h4">Acesso para colaboradores</Typography>
+          <TextField
+            required
+            autoComplete="off"
+            variant="standard"
+            fullWidth
+            id="email"
+            label="E-mail"
+            name="email"
+            autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            required
+            autoComplete="off"
+            variant="standard"
+            fullWidth
+            id="password"
+            name="password"
+            label="Senha"
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
             }}
+          />
+          <Button
+            sx={{ background: "rgba(16, 175, 205, 1)", borderRadius: 10, fontWeight: "bold", fontSize: "1.2pc" }}
+            fullWidth
+            variant="contained"
+            onClick={handleLogin}
           >
-            <Typography variant="h6">Acesso para colaboradores</Typography>
-            <TextField
-              size="small"
-              required
-              fullWidth
-              id="email"
-              label="E-mail"
-              name="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              size="small"
-              required
-              fullWidth
-              id="password"
-              name="password"
-              label="Senha"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <Button
-              sx={{ background: "rgba(16, 175, 205, 1)" }}
-              fullWidth
-              variant="contained"
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-          </Box>
+            Login
+          </Button>
         </Box>
-      </Container>
-    </Box>
+      </Box>
+    </Container>
   );
 };
 
