@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { Axios, AxiosError } from "axios";
 import axiosInstance from "core/api/axiosInstance";
 import { AUTH } from "core/utils/constants";
 import { jwtDecode } from "jwt-decode";
@@ -8,20 +9,11 @@ type User = {
   password: string;
 };
 
-// type NewUser = User & {
-//   name: string;
-// };
-
 type UserBasicInfo = {
   id: string;
   name: string;
   email: string;
   token: string;
-};
-
-type UserProfileData = {
-  name: string;
-  email: string;
 };
 
 type AuthApiState = {
@@ -54,11 +46,18 @@ const initialState: AuthApiState = {
 
 // * req - dec token - salvando local storage
 export const login = createAsyncThunk("login", async (data: User) => {
-  const response = await axiosInstance.post(AUTH, data);
-  const resData = response.data.data;
-  console.log(resData.data);
-  localStorage.setItem("userInfo", resData);
-  return resData;
+  const response = await axiosInstance
+    .post(AUTH, data)
+    .then((resp) => {
+      localStorage.setItem("userInfo", resp.data.data);
+      //colocar notficaçÃo de sucesso
+      return resp.data.data;
+    })
+    .catch((err: any) => {
+      //console.log(err.response?.data?.errors[0]);
+      return err;
+    });
+  return response;
 });
 
 // export const register = createAsyncThunk("register", async (data: NewUser) => {

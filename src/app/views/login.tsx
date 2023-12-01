@@ -31,8 +31,8 @@ const Login = () => {
             password,
           })
         ).unwrap();
-      } catch (e) {
-        console.error(e);
+      } catch (e: any) {
+        console.log(e.response);
       }
     } else {
       // Show an error message.
@@ -40,14 +40,18 @@ const Login = () => {
   };
 
   return (
-    <Container disableGutters maxWidth="md" sx={{ background: "#fff", borderRadius: 1 }}>
+    <Container
+      disableGutters
+      maxWidth="md"
+      sx={{ background: "#fff", borderRadius: 1 }}
+    >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           height: "40vh",
-          gap: 1
+          gap: 1,
         }}
       >
         <Logo sx={{ boxShadow: "none" }}></Logo>
@@ -61,10 +65,12 @@ const Login = () => {
             flex: 1,
             height: "100%",
             padding: 2,
-            gap: 3
+            gap: 3,
           }}
         >
-          <Typography sx={{ fontSize: "1.5pc" }}>Acesso para colaboradores</Typography>
+          <Typography sx={{ fontSize: "1.5pc" }}>
+            Acesso para colaboradores
+          </Typography>
           <TextField
             required
             autoComplete="off"
@@ -92,7 +98,13 @@ const Login = () => {
             }}
           />
           <Button
-            sx={{ background: "rgba(16, 175, 205, 1)", borderRadius: 10, fontWeight: "bold", fontSize: "1.2em", mt: 5 }}
+            sx={{
+              background: "rgba(16, 175, 205, 1)",
+              borderRadius: 10,
+              fontWeight: "bold",
+              fontSize: "1.2em",
+              mt: 5,
+            }}
             fullWidth
             variant="contained"
             onClick={handleLogin}
