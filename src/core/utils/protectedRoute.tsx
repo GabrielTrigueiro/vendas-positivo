@@ -5,7 +5,18 @@ import SideBar from "app/components/sideBar";
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
-const AppContainer = styled(Box)``;
+const AppContainer = styled(Box)`
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  overflow: hidden;
+`;
+
+const ContentContainer = styled(Box)`
+  background-color: #ccc;
+  flex: 8;
+`;
 
 const ProtectedRoute = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
@@ -17,7 +28,9 @@ const ProtectedRoute = () => {
   return (
     <AppContainer>
       <SideBar />
-      <Outlet />
+      <ContentContainer>
+        <Outlet />
+      </ContentContainer>
     </AppContainer>
   );
 };
