@@ -18,10 +18,28 @@ import { Validations } from "core/utils/validations";
 import { useState } from "react";
 import * as yup from "yup";
 
+const ContainerLogin = styled(Container)`
+  background: #fff;
+  border-radius: 0.5em;
+  height: 50vh;
+  width: 50vw;
+  display: flex;
+`;
+
 const Logo = styled(Card)`
   background-color: #ccc;
   flex: 1;
   height: 100%;
+`;
+
+const BoxForm = styled(Box)`
+  flex: 1;
+  height: 100%;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const Login = () => {
@@ -58,98 +76,62 @@ const Login = () => {
   };
 
   return (
-    <Container
-      disableGutters
-      sx={{
-        background: "#fff",
-        borderRadius: 1,
-        height: "60vh",
-        width: "60vw",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: "100%",
-          gap: 1,
-        }}
-      >
-        <Logo sx={{ boxShadow: "none" }}></Logo>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            justifyContent: "center",
-            flex: 1,
-            height: "100%",
-            padding: 2,
-            gap: 3,
+    <ContainerLogin disableGutters>
+      <Logo sx={{ boxShadow: "none" }}></Logo>
+      <BoxForm>
+        <Typography sx={{ fontSize: "1.5pc", fontWeight: "bold" }}>
+          Acesso para colaboradores
+        </Typography>
+        <TextField
+          required
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          id="email"
+          label="E-mail"
+          name="email"
+          autoFocus
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          required
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          id="password"
+          name="password"
+          label="Senha"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
           }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={togglePassword}
+                  //onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          sx={{ fontWeight: "bold", borderRadius: 10 }}
+          fullWidth
+          variant="contained"
+          onClick={handleLogin}
         >
-          <Typography sx={{ fontSize: "1.5pc" }}>
-            Acesso para colaboradores
-          </Typography>
-          <TextField
-            required
-            autoComplete="off"
-            variant="standard"
-            fullWidth
-            id="email"
-            label="E-mail"
-            name="email"
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            required
-            autoComplete="off"
-            variant="standard"
-            fullWidth
-            id="password"
-            name="password"
-            label="Senha"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={togglePassword}
-                    //onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            sx={{
-              background: "rgba(16, 175, 205, 1)",
-              borderRadius: 10,
-              fontWeight: "bold",
-              fontSize: "1.2em",
-              mt: 5,
-            }}
-            fullWidth
-            variant="contained"
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+          Login
+        </Button>
+      </BoxForm>
+    </ContainerLogin>
   );
 };
 
