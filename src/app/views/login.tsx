@@ -10,6 +10,9 @@ import { useAppDispatch } from "core/hooks/reduxHooks";
 import { login } from "core/redux/slices/authSlice";
 import { useState } from "react";
 import styled from "@emotion/styled";
+import { Validations } from "core/utils/validations";
+import * as yup from "yup";
+import { Notification } from "app/components/toastNotification";
 
 const Logo = styled(Card)`
   background-color: #ccc;
@@ -23,22 +26,25 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    if (email && password) {
-      try {
-        await dispatch(
-          login({
-            email,
-            password,
-          })
-        ).then(() => {
-          setEmail("");
-          setPassword("");
-        });
-      } catch (e: any) {
-        console.log(e.response);
+    try {
+      await Validations.loginSchema.validate(
+        { email, password },
+        { abortEarly: false }
+      );
+      await dispatch(
+        login({
+          email,
+          password,
+        })
+      );
+    } catch (e) {
+      // ? erro na validação
+      if (e instanceof yup.ValidationError) {
+        e.errors.map((erro) => Notification(erro, "error"));
+      } else {
+        // ? erro por fora
+        console.error("Erro durante o login:", e);
       }
-    } else {
-      // Show an error message.
     }
   };
 
