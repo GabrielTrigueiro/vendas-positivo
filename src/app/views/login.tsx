@@ -1,18 +1,18 @@
+import styled from "@emotion/styled";
 import {
-  Container,
   Box,
-  Typography,
-  TextField,
   Button,
   Card,
+  Container,
+  TextField,
+  Typography,
 } from "@mui/material";
+import { Notification } from "app/components/toastNotification";
 import { useAppDispatch } from "core/hooks/reduxHooks";
 import { login } from "core/redux/slices/authSlice";
-import { useState } from "react";
-import styled from "@emotion/styled";
 import { Validations } from "core/utils/validations";
+import { useState } from "react";
 import * as yup from "yup";
-import { Notification } from "app/components/toastNotification";
 
 const Logo = styled(Card)`
   background-color: #ccc;

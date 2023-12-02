@@ -7,14 +7,18 @@ import { BrowserRouter } from "react-router-dom";
 import FullScreenContainer from "app/components/layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThemeProvider } from "@mui/material";
+import PositivoTheme from "theme";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <Provider store={store}>
-    <ToastContainer />
-    <BrowserRouter>
-      <FullScreenContainer>
-        <App />
-      </FullScreenContainer>
-    </BrowserRouter>
-  </Provider>
+  <ThemeProvider theme={PositivoTheme}>
+    <Provider store={store}>
+      <ToastContainer />
+      <BrowserRouter>
+        <FullScreenContainer>
+          <App />
+        </FullScreenContainer>
+      </BrowserRouter>
+    </Provider>
+  </ThemeProvider>
 );
