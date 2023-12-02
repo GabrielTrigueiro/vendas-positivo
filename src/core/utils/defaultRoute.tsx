@@ -7,7 +7,7 @@ const DefaultRoute = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
 
   if (basicUserInfo) {
-    return <Navigate replace to={"/"} />;
+    return <Navigate replace to={"/dashboard"} />;
   }
 
   return (
