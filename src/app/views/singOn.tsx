@@ -1,119 +1,156 @@
-// import {
-//   Avatar,
-//   Box,
-//   Button,
-//   Container,
-//   CssBaseline,
-//   Grid,
-//   TextField,
-//   Typography,
-// } from "@mui/material";
-// import { LockOutlined } from "@mui/icons-material";
-// import { useState } from "react";
-// import { Link } from "react-router-dom";
-// import { useAppDispatch } from "../../core/hooks/reduxHooks";
-// import { register } from "../../core/redux/slices/authSlice";
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
+import { useFormik } from "formik";
+import { Validations } from "core/utils/validations";
+import { Notification } from "app/components/toastNotification";
+import { useAppDispatch } from "core/hooks/reduxHooks";
+import { register } from "core/redux/slices/authSlice";
+import * as Yup from "yup";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-// const Register = () => {
-//   const dispatch = useAppDispatch();
+const ContainerLogin = styled(Container)`
+  background: #fff;
+  border-radius: 0.5em;
+  height: 50%;
+  width: 40%;
+  padding: 1em 2em;
+  display: flex;
+`;
 
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
+const BoxForm = styled("form")`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
 
-//   const handleRegister = async () => {
-//     // This is only a basic validation of inputs. Improve this as needed.
-//     if (name && email && password) {
-//       try {
-//         await dispatch(
-//           register({
-//             name,
-//             email,
-//             password,
-//           })
-//         ).unwrap();
-//       } catch (e) {
-//         console.error(e);
-//       }
-//     } else {
-//       // Show an error message.
-//     }
-//   };
+const SingOn = () => {
+  const dispatch = useAppDispatch();
+  const [pass, setPass] = useState("");
+  const initialValues = {
+    email: "",
+    password: "",
+    cpf: "",
+    name: "",
+    role: "ROLE_ADMIN",
+  };
 
-//   return (
-//     <>
-//       <Container maxWidth="xs">
-//         <CssBaseline />
-//         <Box
-//           sx={{
-//             mt: 20,
-//             display: "flex",
-//             flexDirection: "column",
-//             alignItems: "center",
-//           }}
-//         >
-//           <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>
-//             <LockOutlined />
-//           </Avatar>
-//           <Typography variant="h5">Register</Typography>
-//           <Box sx={{ mt: 3 }}>
-//             <Grid container spacing={2}>
-//               <Grid item xs={12}>
-//                 <TextField
-//                   name="name"
-//                   required
-//                   fullWidth
-//                   id="name"
-//                   label="Name"
-//                   autoFocus
-//                   value={name}
-//                   onChange={(e) => setName(e.target.value)}
-//                 />
-//               </Grid>
+  const formik = useFormik({
+    initialValues,
+    validateOnBlur: true,
+    onSubmit: async (values, { setSubmitting }) => {
+      // * yup
+      await Validations.registerSchema
+        .validate(values, { abortEarly: false })
+        // * passou no yup
+        .then(async (values) => {
+          try {
+            await dispatch(register(values));
+            formik.resetForm();
+          } catch (e) {
+            // ! erro externo
+            Notification("Erro na conexão", "error");
+            setSubmitting(false);
+          }
+        })
+        // ! erros do yup
+        .catch((e) => {
+          if (Yup.ValidationError.isError(e)) {
+            e.inner.forEach((validationError) => {
+              Notification(validationError.message, "error");
+            });
+            setSubmitting(false);
+          } else {
+            console.error(e);
+            setSubmitting(false);
+          }
+          setSubmitting(false);
+        });
+    },
+  });
 
-//               <Grid item xs={12}>
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   id="email"
-//                   label="Email Address"
-//                   name="email"
-//                   value={email}
-//                   onChange={(e) => setEmail(e.target.value)}
-//                 />
-//               </Grid>
-//               <Grid item xs={12}>
-//                 <TextField
-//                   required
-//                   fullWidth
-//                   name="password"
-//                   label="Password"
-//                   type="password"
-//                   id="password"
-//                   value={password}
-//                   onChange={(e) => setPassword(e.target.value)}
-//                 />
-//               </Grid>
-//             </Grid>
-//             <Button
-//               fullWidth
-//               variant="contained"
-//               sx={{ mt: 3, mb: 2 }}
-//               onClick={handleRegister}
-//             >
-//               Register
-//             </Button>
-//             <Grid container justifyContent="flex-end">
-//               <Grid item>
-//                 <Link to="/login">Already have an account? Login</Link>
-//               </Grid>
-//             </Grid>
-//           </Box>
-//         </Box>
-//       </Container>
-//     </>
-//   );
-// };
+  return (
+    <ContainerLogin disableGutters>
+      <BoxForm onSubmit={formik.handleSubmit}>
+        <Typography sx={{ fontSize: "1.5pc", fontWeight: "bold" }}>
+          Registro de colaboradores
+        </Typography>
+        <TextField
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          id="name"
+          label="Nome"
+          name="name"
+          autoFocus
+          value={formik.values.name}
+          onChange={formik.handleChange}
+        />
+        <TextField
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          id="cpf"
+          label="CPF"
+          name="cpf"
+          autoFocus
+          value={formik.values.cpf}
+          onChange={formik.handleChange}
+        />
+        <TextField
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          id="email"
+          label="E-mail"
+          name="email"
+          autoFocus
+          value={formik.values.email}
+          onChange={formik.handleChange}
+        />
+        <TextField
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          label="Senha"
+          name="password"
+          type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+        />
+        <TextField
+          autoComplete="off"
+          variant="standard"
+          fullWidth
+          label="Confirmar senha"
+          type="password"
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+        />
+        <Button
+          type="submit"
+          sx={{ fontWeight: "bold", borderRadius: 10 }}
+          variant="contained"
+        >
+          Registrar
+        </Button>
+        <Link to="/login">Já é registrado?</Link>
+      </BoxForm>
+    </ContainerLogin>
+  );
+};
 
-// export default Register;
-export {};
+export default SingOn;

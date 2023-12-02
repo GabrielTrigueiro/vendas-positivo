@@ -16,6 +16,7 @@ import { useAppDispatch } from "core/hooks/reduxHooks";
 import { login } from "core/redux/slices/authSlice";
 import { Validations } from "core/utils/validations";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 
 const ContainerLogin = styled(Container)`
@@ -113,7 +114,6 @@ const Login = () => {
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={togglePassword}
-                  //onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
                   {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
@@ -130,6 +130,7 @@ const Login = () => {
         >
           Login
         </Button>
+        <Link to="/registro">Não é registrado?</Link>
       </BoxForm>
     </ContainerLogin>
   );

@@ -1,12 +1,20 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Notification } from "app/components/toastNotification";
 import axiosInstance from "core/api/axiosInstance";
-import { AUTH } from "core/utils/constants";
+import { AUTH, REGISTER } from "core/utils/constants";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 
 type User = {
   email: string;
   password: string;
+};
+
+type NewUser = {
+  email: string;
+  password: string;
+  cpf: string;
+  name: string;
+  role: string;
 };
 
 type UserBasicInfo = {
@@ -48,7 +56,7 @@ const initialState: AuthApiState = {
   error: null,
 };
 
-// * req - dec token - salvando local storage
+// * login + token L.S.
 export const login = createAsyncThunk("login", async (data: User) => {
   const response = await axiosInstance
     .post(AUTH, data)
@@ -64,12 +72,21 @@ export const login = createAsyncThunk("login", async (data: User) => {
   return response;
 });
 
-// export const register = createAsyncThunk("register", async (data: NewUser) => {
-//   const response = await axiosInstance.post("/register", data);
-//   const resData = response.data;
-//   localStorage.setItem("userInfo", JSON.stringify(resData));
-//   return resData;
-// });
+// ! falta testar e ver se ta registrando e logando direto
+export const register = createAsyncThunk("register", async (data: NewUser) => {
+  const response = await axiosInstance
+    .post(REGISTER, data)
+    .then((resp) => {
+      localStorage.setItem("userInfo", resp.data.data);
+      Notification("Registrado com sucesso", "success");
+      return resp.data.data;
+    })
+    .catch((err: any) => {
+      Notification(err.response?.data?.errors[0], "error");
+      return err;
+    });
+  return response;
+});
 
 export const logout = createAsyncThunk("logout", async () => {
   localStorage.removeItem("userInfo");
@@ -105,23 +122,19 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Login failed";
+      })
+      .addCase(register.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(register.fulfilled, (state, action: PayloadAction<string>) => {
+        state.status = "idle";
+        state.basicUserInfo = translateToken(action.payload);
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Registration failed";
       });
-
-    // .addCase(register.pending, (state) => {
-    //   state.status = "loading";
-    //   state.error = null;
-    // })
-    // .addCase(
-    //   register.fulfilled,
-    //   (state, action: PayloadAction<UserBasicInfo>) => {
-    //     state.status = "idle";
-    //     state.basicUserInfo = action.payload;
-    //   }
-    // )
-    // .addCase(register.rejected, (state, action) => {
-    //   state.status = "failed";
-    //   state.error = action.error.message || "Registration failed";
-    // })
   },
 });
 
