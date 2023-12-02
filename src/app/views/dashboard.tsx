@@ -29,6 +29,7 @@ const Dashboard = () => {
     <>
       <h1>Home</h1>
       <h4>Email: {basicUserInfo?.email}</h4>
+      <h4>Nome: {basicUserInfo?.name}</h4>
       <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
         Logout
       </Button>

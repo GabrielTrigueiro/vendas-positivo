@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import DefaultRoute from "../core/utils/defaultRoute";
-import ProtectedRoute from "../core/utils/protectedRoute";
-import Login from "./views/login";
-import Dashboard from "./views/dashboard";
+import DefaultRoute from "core/utils/defaultRoute";
+import ProtectedRoute from "core/utils/protectedRoute";
+import Login from "app/views/login";
+import Dashboard from "app/views/dashboard";
+import Sales from "app/views/sales";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/vendas" element={<Sales />} />
       </Route>
     </Routes>
   );

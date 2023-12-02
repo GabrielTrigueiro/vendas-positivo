@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Notification } from "app/components/toastNotification";
 import axiosInstance from "core/api/axiosInstance";
 import { AUTH } from "core/utils/constants";
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 
 type User = {
   email: string;
@@ -10,10 +10,9 @@ type User = {
 };
 
 type UserBasicInfo = {
-  id: string;
   name: string;
   email: string;
-  token: string;
+  roles: string[];
 };
 
 type AuthApiState = {
@@ -22,16 +21,21 @@ type AuthApiState = {
   error: string | null;
 };
 
+interface CustomJwtPayload extends JwtPayload {
+  email: string;
+  name: string;
+  roles: [];
+}
+
 const translateToken = (token: string | null): UserBasicInfo | null => {
   if (token === null) {
     return null;
   }
-  let userDecoded = jwtDecode(token);
+  let userDecoded: CustomJwtPayload = jwtDecode(token);
   let user = {
     email: userDecoded.sub || "",
-    id: "não tem por enquanto",
-    name: "não tem por enquanto",
-    token: token,
+    name: userDecoded.name,
+    roles: userDecoded.roles,
   };
   return user;
 };

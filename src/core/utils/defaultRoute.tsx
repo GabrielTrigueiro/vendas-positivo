@@ -1,7 +1,6 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "../hooks/reduxHooks";
+import { useAppSelector } from "core/hooks/reduxHooks";
 
 const DefaultRoute = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
