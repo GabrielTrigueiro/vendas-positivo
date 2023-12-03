@@ -1,12 +1,9 @@
 import { ToastOptions, toast } from "react-toastify";
-import { useTheme, useMediaQuery } from "@mui/material";
 
 export const Notification = (
   message: string,
   type: "error" | "success" | "warning"
 ) => {
-
-
   const options: ToastOptions = {
     position: "top-right",
     autoClose: 5000,

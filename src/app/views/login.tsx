@@ -1,10 +1,8 @@
-import styled from "@emotion/styled";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Box,
   Button,
-  Card,
   Container,
   IconButton,
   InputAdornment,
@@ -62,7 +60,7 @@ const Login = () => {
       disableGutters
       sx={{
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
-        height: "45vh",
+        height: "55vh",
         background: "#fff",
         borderRadius: "10px",
         display: "flex",
@@ -73,7 +71,7 @@ const Login = () => {
           alignItems: "center",
           justifyContent: "center",
           padding: 2,
-        })
+        }),
       }}
     >
       <Box
@@ -90,8 +88,8 @@ const Login = () => {
             position: "absolute",
             height: 150,
             width: 150,
-            top: "10%"
-          })
+            top: "10%",
+          }),
         }}
       ></Box>
       <Box
@@ -108,7 +106,7 @@ const Login = () => {
             width: "100%",
             padding: 0,
             gap: 1,
-          })
+          }),
         }}
       >
         <Typography sx={{ fontSize: "1.5pc", fontWeight: "bold" }}>
