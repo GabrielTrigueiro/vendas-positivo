@@ -10,44 +10,24 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Notification } from "app/components/toastNotification";
 import { useAppDispatch } from "core/hooks/reduxHooks";
 import { login } from "core/redux/slices/authSlice";
 import { Validations } from "core/utils/validations";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import * as yup from "yup";
-
-const ContainerLogin = styled(Container)`
-  background: #fff;
-  border-radius: 0.5em;
-  height: 50vh;
-  width: 50vw;
-  display: flex;
-`;
-
-const Logo = styled(Card)`
-  background-color: #ccc;
-  flex: 1;
-  height: 100%;
-`;
-
-const BoxForm = styled(Box)`
-  flex: 1;
-  height: 100%;
-  padding: 2em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-`;
+import Logo from "images/assets/logo.svg";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const currentTheme = useTheme();
+  const isSmallScreen = useMediaQuery(currentTheme.breakpoints.down("sm"));
 
   function togglePassword() {
     setShowPassword(!showPassword);
@@ -77,9 +57,60 @@ const Login = () => {
   };
 
   return (
-    <ContainerLogin disableGutters>
-      <Logo sx={{ boxShadow: "none" }}></Logo>
-      <BoxForm>
+    <Container
+      maxWidth={isSmallScreen ? "sm" : "md"}
+      disableGutters
+      sx={{
+        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+        height: "45vh",
+        background: "#fff",
+        borderRadius: "10px",
+        display: "flex",
+        ...(isSmallScreen && {
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 2,
+        })
+      }}
+    >
+      <Box
+        sx={{
+          background: `url(${Logo})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          borderRadius: "10px 0px 0 10px",
+          width: "50%",
+          height: "100%",
+          ...(isSmallScreen && {
+            borderRadius: "10px",
+            position: "absolute",
+            height: 150,
+            width: 150,
+            top: "10%"
+          })
+        }}
+      ></Box>
+      <Box
+        sx={{
+          width: "50%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 2,
+          gap: 2,
+          ...(isSmallScreen && {
+            width: "100%",
+            padding: 0,
+            gap: 1,
+          })
+        }}
+      >
         <Typography sx={{ fontSize: "1.5pc", fontWeight: "bold" }}>
           Acesso para colaboradores
         </Typography>
@@ -123,16 +154,16 @@ const Login = () => {
           }}
         />
         <Button
-          sx={{ fontWeight: "bold", borderRadius: 10 }}
+          sx={{ fontWeight: "bold", borderRadius: 10, marginTop: 5 }}
           fullWidth
           variant="contained"
           onClick={handleLogin}
         >
           Login
         </Button>
-        <Link to="/registro">Não é registrado?</Link>
-      </BoxForm>
-    </ContainerLogin>
+        {/* <Link to="/registro">Não é registrado?</Link> */}
+      </Box>
+    </Container>
   );
 };
 
