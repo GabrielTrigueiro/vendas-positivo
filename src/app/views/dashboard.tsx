@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../core/hooks/reduxHooks";
 import { logout, getUser } from "../../core/redux/slices/authSlice";
@@ -26,9 +26,9 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>Dashboard</h1>
-      <h4>Email: {basicUserInfo?.email}</h4>
-      <h4>Nome: {basicUserInfo?.name}</h4>
+      <Typography>Dashboard</Typography>
+      <Typography>Email: {basicUserInfo?.email}</Typography>
+      <Typography>Nome: {basicUserInfo?.name}</Typography>
       <Link to={"login"}>
         <Button
           variant="contained"

@@ -102,6 +102,7 @@ const Login = () => {
           alignItems: "center",
           justifyContent: "space-evenly",
           padding: "0 1% ",
+          gap: 1,
           ...(isSmallScreen && {
             justifyContent: "center",
             width: "100%",

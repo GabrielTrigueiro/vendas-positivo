@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material";
 const PositivoTheme = createTheme({
   palette: {
     primary: {
-      main: "#ccc",
+      main: "#00AECB",
       dark: "#ccc",
     },
     secondary: {
