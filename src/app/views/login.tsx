@@ -25,12 +25,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const currentTheme = useTheme();
-  const isSmallScreen = useMediaQuery(currentTheme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(currentTheme.breakpoints.down("sm")); //bp width
 
   function togglePassword() {
     setShowPassword(!showPassword);
   }
 
+  // * validation plus call login from redux
   const handleLogin = async () => {
     try {
       await Validations.loginSchema.validate(
@@ -44,11 +45,11 @@ const Login = () => {
         })
       );
     } catch (e) {
-      // ? erro na validação
+      // ? validation error
       if (e instanceof yup.ValidationError) {
         e.errors.map((erro) => Notification(erro, "error"));
       } else {
-        // ? erro por fora
+        // ? external error
         console.error("Erro durante o login:", e);
       }
     }
@@ -99,13 +100,13 @@ const Login = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          padding: 2,
-          gap: 2,
+          justifyContent: "space-evenly",
+          padding: "0 1% ",
           ...(isSmallScreen && {
+            justifyContent: "center",
             width: "100%",
             padding: 0,
-            gap: 1,
+            gap: 3,
           }),
         }}
       >
@@ -152,7 +153,7 @@ const Login = () => {
           }}
         />
         <Button
-          sx={{ fontWeight: "bold", borderRadius: 10, marginTop: 5 }}
+          sx={{ fontWeight: "bold", borderRadius: 10 }}
           fullWidth
           variant="contained"
           onClick={handleLogin}
