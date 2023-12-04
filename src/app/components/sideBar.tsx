@@ -6,8 +6,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import useSideBarHook from "core/hooks/sideBarHook";
 import SideBarItem from "./sideBarItem";
 import logo from "images/assets/logo.svg";
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
 const drawerWidth = 200;
 
@@ -18,9 +18,9 @@ const openedMixin = (theme: Theme): CSSObject => ({
 
 const closedMixin = (theme: Theme): CSSObject => ({
   ...transitionMixin(theme, theme.transitions.duration.leavingScreen),
-  width: `calc(${theme.spacing(9)} + 1px)`,
+  width: `calc(${theme.spacing(8)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
@@ -53,7 +53,7 @@ function SideBar() {
     <Drawer
       sx={{
         textAlign: "center",
-        overflow: 'hidden'
+        overflow: "hidden",
       }}
       variant={"permanent"}
       open={isOpen}
@@ -61,10 +61,9 @@ function SideBar() {
     >
       <Box
         sx={{
-          height: '100%',
+          height: "100%",
           padding: "5%",
-          overflow: 'hidden'
-
+          overflow: "hidden",
         }}
       >
         <>
@@ -74,21 +73,27 @@ function SideBar() {
             height={isOpen ? 70 : 60}
             image={logo}
             sx={{
-              transition: "all 0.3s ease",
-              animation: "ease-in",
               borderRadius: 2,
-              objectFit: 'cover',
-              boxShadow: 'none',
+              objectFit: isOpen ? "contain" : "cover",
+              boxShadow: "none",
               ...(isOpen && {
                 background: (theme) => theme.palette.primary.main,
               }),
             }}
           />
 
-          {isOpen && <Typography sx={{
-            transition: "all 0.5s ease",
-            animation: "ease",
-          }} fontWeight={"bold"}>Positivo Brasil</Typography>}
+          {isOpen && (
+            <Typography
+              sx={{
+                transition: "all 0.5s ease",
+                animation: "forwards",
+                margin: 1,
+              }}
+              fontWeight={"bold"}
+            >
+              Positivo Brasil
+            </Typography>
+          )}
         </>
         <List
           sx={{
@@ -96,12 +101,12 @@ function SideBar() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            textAlign: 'center',
-            height: '100%',
+            textAlign: "center",
+            height: "100%",
             gap: 1,
             ...(isOpen && {
-              alignItems: "start"
-            })
+              alignItems: "start",
+            }),
           }}
           component="nav"
         >
@@ -113,9 +118,20 @@ function SideBar() {
           <SideBarItem icon={ReceiptIcon} link="/vendas" label="Vendas" />
         </List>
       </Box>
-      <div onClick={isOpen ? onClose : onOpen}>
-        <div>{isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}</div>
-      </div>
+      <Box
+        sx={{
+          transition: "all 0.3s ease",
+
+          ":hover": { background: (theme) => theme.palette.primary.main },
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "7%",
+        }}
+        onClick={isOpen ? onClose : onOpen}
+      >
+        {isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+      </Box>
     </Drawer>
   );
 }

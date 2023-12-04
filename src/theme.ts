@@ -24,11 +24,9 @@ const PositivoTheme = createTheme({
           props: { variant: "contained" },
           style: ({ theme }) => ({
             color: "#fff",
-            boxShadow: "none",
             fontSize: "1pc",
             borderColor: "transparent",
             "&:hover": {
-              boxShadow: "none",
               backgroundColor: theme.palette.secondary.light,
             },
           }),

@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAppSelector } from "core/hooks/reduxHooks";
 import SideBar from "app/components/sideBar";
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import Navbar from "app/components/navbar";
 
 const AppContainer = styled(Box)`
@@ -12,9 +12,7 @@ const AppContainer = styled(Box)`
   display: flex;
 `;
 
-const ContentContainer = styled(Box)`
-
-`;
+const ContentContainer = styled(Box)``;
 
 const ProtectedRoute = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
@@ -26,9 +24,22 @@ const ProtectedRoute = () => {
   return (
     <AppContainer>
       <SideBar />
-      <ContentContainer sx={{ width: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <ContentContainer
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
         <Navbar />
-        <Box sx={{ flex: 1, padding: "1%" }}>
+        <Box
+          sx={{
+            flex: 1,
+            padding: "1%",
+            background: "#cccccce1",
+          }}
+        >
           <Outlet />
         </Box>
       </ContentContainer>
