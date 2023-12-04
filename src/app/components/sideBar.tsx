@@ -4,7 +4,6 @@ import { CSSObject, Theme, styled } from "@mui/material/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import useSideBarHook from "core/hooks/sideBarHook";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SideBarItem from "./sideBarItem";
 import logo from "images/assets/logo.svg";
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -53,7 +52,6 @@ function SideBar() {
   return (
     <Drawer
       sx={{
-        transition: "all 0.3s ease",
         textAlign: "center",
         overflow: 'hidden'
       }}

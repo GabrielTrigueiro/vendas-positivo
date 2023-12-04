@@ -4,6 +4,7 @@ import { useAppSelector } from "core/hooks/reduxHooks";
 import SideBar from "app/components/sideBar";
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
+import Navbar from "app/components/navbar";
 
 const AppContainer = styled(Box)`
   width: 100vw;
@@ -12,7 +13,7 @@ const AppContainer = styled(Box)`
 `;
 
 const ContentContainer = styled(Box)`
-  background: "#000";
+
 `;
 
 const ProtectedRoute = () => {
@@ -25,8 +26,11 @@ const ProtectedRoute = () => {
   return (
     <AppContainer>
       <SideBar />
-      <ContentContainer>
-        <Outlet />
+      <ContentContainer sx={{ width: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <Navbar />
+        <Box sx={{ flex: 1, padding: "1%" }}>
+          <Outlet />
+        </Box>
       </ContentContainer>
     </AppContainer>
   );
