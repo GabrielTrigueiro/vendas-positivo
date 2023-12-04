@@ -37,7 +37,7 @@ const ProtectedRoute = () => {
           sx={{
             flex: 1,
             padding: "1%",
-            background: "#cccccce1",
+            background: "#ccccccdf",
           }}
         >
           <Outlet />

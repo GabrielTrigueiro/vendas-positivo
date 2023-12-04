@@ -15,6 +15,8 @@ import { getUser, logout } from "core/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   // * get user infos
   const dispatch = useAppDispatch();
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
@@ -31,16 +33,21 @@ function Navbar() {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-    handleLogout();
-  };
 
-  // * navigate and translate user
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+  // * menu actions
+  const handleMenuAction = (action: "logout" | "editUser") => {
+    setAnchorElUser(null);
+    switch (action) {
+      case "logout":
+        dispatch(logout());
+        navigate("/login");
+        break;
+      case "editUser":
+        navigate("/editarUsuario");
+        break;
+      default:
+        break;
+    }
   };
 
   React.useEffect(() => {
@@ -85,9 +92,14 @@ function Navbar() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClose={() => setAnchorElUser(null)}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={() => handleMenuAction("editUser")}>
+                <Typography alignItems={"center"}>
+                  Editar informações
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={() => handleMenuAction("logout")}>
                 <Typography alignItems={"center"}>Logout</Typography>
               </MenuItem>
             </Menu>

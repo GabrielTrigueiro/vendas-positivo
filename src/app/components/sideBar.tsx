@@ -70,7 +70,7 @@ function SideBar() {
           <CardMedia
             component="img"
             alt="Logo"
-            height={isOpen ? 70 : 60}
+            height={55}
             image={logo}
             sx={{
               borderRadius: 2,
