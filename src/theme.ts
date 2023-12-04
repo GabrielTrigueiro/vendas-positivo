@@ -4,7 +4,7 @@ const PositivoTheme = createTheme({
   palette: {
     primary: {
       main: "#00AECB",
-      dark: "#ccc",
+      dark: "#858796",
     },
     secondary: {
       main: "rgb(16, 175, 205)",

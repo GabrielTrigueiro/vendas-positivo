@@ -96,7 +96,7 @@ function Navbar() {
             >
               <MenuItem onClick={() => handleMenuAction("editUser")}>
                 <Typography alignItems={"center"}>
-                  Editar informações
+                  Perfil
                 </Typography>
               </MenuItem>
               <MenuItem onClick={() => handleMenuAction("logout")}>

@@ -26,10 +26,9 @@ const ProtectedRoute = () => {
       <SideBar />
       <ContentContainer
         sx={{
-          width: "100%",
+          flex: 1,
           display: "flex",
           flexDirection: "column",
-          overflow: "hidden",
         }}
       >
         <Navbar />
@@ -37,7 +36,8 @@ const ProtectedRoute = () => {
           sx={{
             flex: 1,
             padding: "1%",
-            background: "#ccccccdf",
+            background: "#eaeaea ",
+            display: "flex"
           }}
         >
           <Outlet />
