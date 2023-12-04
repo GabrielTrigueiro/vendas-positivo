@@ -7,6 +7,8 @@ import useSideBarHook from "core/hooks/sideBarHook";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SideBarItem from "./sideBarItem";
 import logo from "images/assets/logo.svg";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const drawerWidth = 200;
 
@@ -53,6 +55,7 @@ function SideBar() {
       sx={{
         transition: "all 0.3s ease",
         textAlign: "center",
+        overflow: 'hidden'
       }}
       variant={"permanent"}
       open={isOpen}
@@ -60,8 +63,10 @@ function SideBar() {
     >
       <Box
         sx={{
-          flex: 1,
-          padding: "5%"
+          height: '100%',
+          padding: "5%",
+          overflow: 'hidden'
+
         }}
       >
         <>
@@ -82,7 +87,10 @@ function SideBar() {
             }}
           />
 
-          {isOpen && <Typography fontWeight={"bold"}>Positivo Brasil</Typography>}
+          {isOpen && <Typography sx={{
+            transition: "all 0.5s ease",
+            animation: "ease",
+          }} fontWeight={"bold"}>Positivo Brasil</Typography>}
         </>
         <List
           sx={{
@@ -90,6 +98,9 @@ function SideBar() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            textAlign: 'center',
+            height: '100%',
+            gap: 1,
             ...(isOpen && {
               alignItems: "start"
             })
@@ -97,11 +108,11 @@ function SideBar() {
           component="nav"
         >
           <SideBarItem
-            icon={VisibilityOffIcon}
+            icon={DashboardIcon}
             link="/dashboard"
             label="Dashboard"
           />
-          <SideBarItem icon={VisibilityOffIcon} link="/vendas" label="Vendas" />
+          <SideBarItem icon={ReceiptIcon} link="/vendas" label="Vendas" />
         </List>
       </Box>
       <div onClick={isOpen ? onClose : onOpen}>
